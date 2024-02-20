@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "google/protobuf/timestamp.proto";
+
+message Saldo {
+  int32 total = 1;
+  google.protobuf.Timestamp data_extrato = 2;
+  int32 limite = 3;
+}
+
+message TransacaoExtrato {
+  uint32 valor = 1;
+  string tipo = 2;
+  string descricao = 3;
+  google.protobuf.Timestamp realizada_em = 4;
+}
+
+message TransacaoRequest {
+  int32 id = 1;
+  uint32 valor = 2;
+  string tipo = 3;
+  string descricao = 4;
+}
+
+message TransacaoResponse {
+  int32 limite = 1;
+  int32 saldo = 2;
+}
+
+message ExtratoRequest {
+  int32 id = 1;
+}
+
+message ExtratoResponse {
+  Saldo saldo = 1;
+  repeated TransacaoExtrato ultimas_transacoes = 2;
+}
+

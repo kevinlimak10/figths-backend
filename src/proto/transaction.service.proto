@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "proto/representation.proto";
+
+service Transaction {
+    rpc ProcessarTransacao(TransacaoRequest) returns (TransacaoResponse);
+}
