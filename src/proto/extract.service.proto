@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package protobuf;
 
-import "proto/representation.proto";
+import "representation.proto";
 
 service Extract {
     rpc ObterExtrato(ExtratoRequest) returns (ExtratoResponse);

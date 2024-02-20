@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package protobuf;
 
-import "proto/representation.proto";
+import "representation.proto";
 
 service Transaction {
     rpc ProcessarTransacao(TransacaoRequest) returns (TransacaoResponse);

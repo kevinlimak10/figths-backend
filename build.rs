@@ -12,11 +12,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .file_descriptor_set_path(out_dir.join("auction_v1_descriptor.bin"))
         .compile(
             &[
-                "./proto/representation.proto",
-                "./proto/extract.service.proto",
-                "./proto/transaction.service.proto",
+                "./src/proto/representation.proto",
+                "./src/proto/extract.service.proto",
+                "./src/proto/transaction.service.proto",
             ],
-            &["proto"], // location to search proto dependencies
+            &["./src/proto"], // location to search proto dependencies
         )?;
 
     Ok(())
