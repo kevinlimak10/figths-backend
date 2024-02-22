@@ -22,12 +22,14 @@ pub type RpcResult<T> = std::result::Result<tonic::Response<T>, tonic::Status>;
 
 use extract::ExtractImpl;
 use transaction::TransactionImpl;
+use crate::api::v1::extract_server::{Extract, ExtractServer};
+use crate::api::v1::transaction_server::{Transaction, TransactionServer};
 
 
 pub fn transaction_service() -> TransactionServer<impl Transaction> {
-    TransactionServer::new(TransactionImpl::new())
+    TransactionServer::new(TransactionImpl::default())
 }
 
-pub fn extract_service() -> ExtractServer<impl Server> {
-    ExtractServer::new(ExtractImpl::new())
+pub fn extract_service() -> ExtractServer<impl Extract> {
+    ExtractServer::new(ExtractImpl::default())
 }

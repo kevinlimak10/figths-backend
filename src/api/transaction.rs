@@ -4,6 +4,7 @@ use crate::prelude::*;
 
 use async_trait::async_trait;
 use tonic::{Request, Response, Status};
+use crate::api::v1::transaction_server::Transaction;
 
 #[derive(Debug, Default)]
 pub struct TransactionImpl {}
@@ -14,6 +15,7 @@ impl Transaction for TransactionImpl {
         &self,
         request: Request<TransacaoRequest>,
     ) -> RpcResult<TransacaoResponse> {
+        println!("Transaction!!");
         Err(Status::unimplemented("todo!"))
     }
 }
