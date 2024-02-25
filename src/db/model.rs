@@ -1,7 +1,6 @@
 extern crate rust_decimal;
 use rust_decimal::Decimal;
 
-
 #[derive(Clone, Debug, Default, sqlx::FromRow)]
 pub struct Transaction {
     pub id: Option<i32>,

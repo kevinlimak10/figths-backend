@@ -1,4 +1,4 @@
-mod functions;
+mod query;
 pub mod model;
 mod repo;
 
@@ -13,7 +13,7 @@ use uuid::Uuid;
 #[async_trait]
 pub trait TransactionMgm {
     async fn create(&self, transaction: &Transaction) -> Result<&i32>;
-    async fn updateTransaction(
+    async fn update_transaction(
         &self,
         id: &i32,
         status: &i32,

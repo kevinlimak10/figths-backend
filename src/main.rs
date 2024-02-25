@@ -7,17 +7,17 @@ mod prelude;
 
 use crate::prelude::*;
 use std::path::PathBuf;
+use mysql::{Opts, OptsBuilder, Pool};
 
 use structured_logger::{async_json::new_writer, Builder as LogBuilder};
 use tokio::io;
+use tokio::sync::oneshot;
+use tokio::sync::oneshot::{Receiver, Sender};
 use tonic::transport::Server as TonicServer;
 
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    // let args = cmd::parse();
-    // let conf = config::load(PathBuf::from(args.config_path))?;
-
     LogBuilder::with_level("debug")
         .with_default_writer(new_writer(io::stdout()))
         .init();
@@ -31,7 +31,7 @@ async fn main() -> Result<()> {
     let (main_tx, app_rx) = oneshot::channel::<()>();
     let (app_tx, main_rx) = oneshot::channel::<()>();
 
-    let app_task = tokio::spawn(run_app(conf, app_tx, app_rx));
+    let app_task = tokio::spawn(run_app(app_tx, app_rx));
 
     TonicServer::builder()
         .add_service(api::spec_service()?)
@@ -43,7 +43,7 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn run_app(conf: config::AppConfig, tx: Sender<()>, rx: Receiver<()>) -> Result<()> {
+async fn run_app(tx: Sender<()>, rx: Receiver<()>) -> Result<()> {
    let pool = establish_connection();
 
     if tx.send(()).is_err() {
@@ -54,15 +54,7 @@ async fn run_app(conf: config::AppConfig, tx: Sender<()>, rx: Receiver<()>) -> R
 }
 
 fn establish_connection() -> Pool {
+    let url = "mysql://root:password@localhost:3306/db_name";
     // MySQL connection options
-    let opts = Opts::from(
-        OptsBuilder::new()
-            .ip_or_hostname("localhost") // Your MySQL server IP or hostname
-            .user("username")            // Your MySQL username
-            .pass("password")            // Your MySQL password
-            .db_name("database_name"),   // Your MySQL database name
-    );
-
-    // Create a MySQL connection pool
-    Pool::new(opts).expect("Failed to create MySQL connection pool")
+    Pool::new(url)?
 }
